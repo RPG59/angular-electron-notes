@@ -1,0 +1,13 @@
+.note-item-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.remove-note {
+  cursor: pointer;
+  transition: all .3s ease;
+}
+
+.remove-note:hover {
+  color: red;
+}

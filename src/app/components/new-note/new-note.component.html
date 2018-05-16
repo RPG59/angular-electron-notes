@@ -1,0 +1,23 @@
+<div class="container">
+  <mat-form-field>
+    <input matInput maxlength="15" type="text" placeholder="Note name" [formControl]="noteName"/>
+
+    <mat-error *ngIf="noteName.invalid && noteName.errors?.required">
+      Error =(, please, specify name
+    </mat-error>
+
+    <mat-error *ngIf="noteName.invalid && noteName.errors?.minlength">
+      Error =(, short note name
+    </mat-error>
+
+    <mat-error *ngIf="noteName.invalid && noteName.errors?.repeatName">
+      Error =(, this name is already in use
+    </mat-error>
+  </mat-form-field>
+
+  <quill-editor
+    [formControl]="editor"
+  ></quill-editor>
+
+  <button mat-raised-button color="primary" (click)="saveNote()">Save</button>
+</div>
