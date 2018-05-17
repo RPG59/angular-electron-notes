@@ -13,7 +13,7 @@ export class NewNoteComponent implements OnInit {
   noteName: FormControl = new FormControl('', Validators.compose([
     Validators.minLength(2),
     Validators.required
-  ]);
+  ]));
   editor: FormControl = new FormControl('');
 
 
@@ -44,21 +44,7 @@ export class NewNoteComponent implements OnInit {
       return;
     }
 
-    this.isNameValid().then(isInvalid => {
-      if (isInvalid) {
-        this.noteName.setErrors({repeatName: true});
-        return;
-      }
-      this.api.saveNote(this.noteName.value, this.editor.value);
-    });
-  }
-
-  isNameValid(): Promise<boolean> {
-    return new Promise<boolean>(resolve => {
-      this.api.getNoteList().then(list => {
-        resolve(list.includes(this.noteName.value));
-      });
-    });
+    this.api.saveNote(this.noteName.value, this.editor.value);
   }
 
 }

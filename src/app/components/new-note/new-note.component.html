@@ -10,14 +10,16 @@
       Error =(, short note name
     </mat-error>
 
-    <mat-error *ngIf="noteName.invalid && noteName.errors?.repeatName">
-      Error =(, this name is already in use
-    </mat-error>
   </mat-form-field>
 
-  <quill-editor
-    [formControl]="editor"
-  ></quill-editor>
+  <div class="editor-container">
+    <quill-editor
+      [formControl]="editor"
+    ></quill-editor>
+  </div>
+
+  <br>
+  <br>
 
   <button mat-raised-button color="primary" (click)="saveNote()">Save</button>
 </div>
