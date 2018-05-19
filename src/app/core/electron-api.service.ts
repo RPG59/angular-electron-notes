@@ -1,45 +1,66 @@
 import {Injectable} from '@angular/core';
 import {StateService} from './state.service';
+import {ElectronService} from 'ngx-electron';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ElectronApiService {
-  notes = {
-    test1: '<p>aisertnaeirsn</p>',
-    test2: '<h1>iaserntaeisnrti</h1>'
-  };
+  fs: any;
+  path: any;
 
-  constructor(private state: StateService) {
+  constructor(private state: StateService,
+              private electron: ElectronService) {
+    this.fs = electron.remote.require('fs');
+    this.path = electron.remote.require('path');
   }
 
   getNoteList(): Promise<string[]> {
-    return new Promise(x => {
-      x(Object.keys(this.notes));
+    return new Promise(resolve => {
+      this.fs.readdir('./notes', (err, data) => {
+        if (err) {
+          console.log(err);
+        }
+
+        if (data && data.length) {
+          resolve(data.map(x => x.replace('.html', '')));
+        }
+
+        return;
+      });
     });
   }
 
   saveNote(noteName: string, noteBody: string): void {
-    this.notes[noteName] = noteBody;
-    this.state.appState.next();
+    if (!noteName) {
+      return;
+    }
+    this.fs.writeFile(`./notes/${noteName}.html`, noteBody, (err) => {
+      if (err) {
+        console.log(err);
+      }
+      this.state.updateNotes$.next();
+    });
   }
 
   getNoteBody(noteName: string): Promise<string> {
-    return new Promise(x => {
-      if (this.notes.hasOwnProperty(noteName)) {
-        x(this.notes[noteName]);
-      } else {
-        return;
-      }
+    if (!noteName) {
+      return;
+    }
+
+    return new Promise(resolve => {
+      this.fs.readFile(`./notes/${noteName}.html`, (err, data) => {
+        resolve(data.toString());
+      });
     });
   }
 
   removeNote(noteName: string): void {
-    if (this.notes.hasOwnProperty(noteName)) {
-      delete this.notes[noteName];
-      this.state.appState.next();
-    }
+    this.fs.unlink(`./notes/${noteName}.html`, err => {
+      if (err) {
+        console.log(err);
+      }
+      this.state.updateNotes$.next();
+    });
   }
-
-
 }

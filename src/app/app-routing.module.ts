@@ -1,9 +1,9 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { NewNoteComponent } from './components/new-note/new-note.component';
+import {NgModule} from '@angular/core';
+import {Routes, RouterModule} from '@angular/router';
+import {NewNoteComponent} from './components/new-note/new-note.component';
 
 const routes: Routes = [
-  { path: 'new-note', component: NewNoteComponent },
+  {path: 'new-note', component: NewNoteComponent},
   {path: 'note/:note-name', component: NewNoteComponent}
 ];
 
@@ -11,4 +11,5 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

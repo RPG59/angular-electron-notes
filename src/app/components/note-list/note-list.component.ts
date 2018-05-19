@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {ElectronApiService} from '../../core/electron-api.service';
 import {StateService} from '../../core/state.service';
 
@@ -11,12 +11,13 @@ export class NoteListComponent implements OnInit {
   noteList: string[];
 
   constructor(private api: ElectronApiService,
+              private cdr: ChangeDetectorRef,
               private state: StateService) {
   }
 
   ngOnInit() {
     this.setNoteList();
-    this.state.appState.subscribe(() => {
+    this.state.updateNotes$.subscribe(() => {
       this.setNoteList();
     });
   }
@@ -24,6 +25,7 @@ export class NoteListComponent implements OnInit {
   setNoteList(): void {
     this.api.getNoteList().then(list => {
       this.noteList = list;
+      this.cdr.detectChanges();
     });
   }
 

@@ -14,6 +14,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {NoteListComponent} from './components/note-list/note-list.component';
 import {NoteItemComponent} from './components/note-item/note-item.component';
 import {MatButtonModule, MatInputModule} from '@angular/material';
+import {ElectronService} from 'ngx-electron';
 
 @NgModule({
   declarations: [
@@ -32,9 +33,9 @@ import {MatButtonModule, MatInputModule} from '@angular/material';
     MatIconModule,
     QuillModule,
     MatButtonModule,
-    MatInputModule
+    MatInputModule,
   ],
-  providers: [],
+  providers: [ElectronService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
