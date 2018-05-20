@@ -23,7 +23,9 @@ export class ElectronApiService {
         }
 
         if (data && data.length) {
-          resolve(data.map(x => x.replace('.html', '')));
+          resolve(data
+            .filter(x => this.path.extname(x) === '.html')
+            .map(x => x.replace('.html', '')));
         }
 
         return;
